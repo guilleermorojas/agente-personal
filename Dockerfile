@@ -2,18 +2,16 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Install build dependencies for better-sqlite3 (optional, slim version might need it)
-# RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
-
 COPY package*.json ./
-RUN npm install
+RUN npm install --omit=dev
 
 COPY . .
 
-# Ensure the database is persisted in a volume
-VOLUME /app/data
+RUN mkdir -p /app/data
 
-# Environment variable for DB path
+ENV PORT=3000
 ENV DB_PATH=/app/data/memory.json
+
+EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]
