@@ -1,6 +1,6 @@
 import { Bot } from 'grammy';
 import { config } from '../config/index.js';
-import { memory } from '../database/sqlite.js';
+import { memory } from '../database/firebase.js';
 import { runAgent } from '../agent/loop.js';
 import { transcribeAudio } from '../agent/transcription.js';
 
@@ -34,10 +34,10 @@ bot.on('message:text', async (ctx) => {
 
   try {
     await ctx.replyWithChatAction('typing');
-    const history = memory.getHistory(userId);
-    memory.addMessage(userId, 'user', text);
+    const history = await memory.getHistory(userId);
+    await memory.addMessage(userId, 'user', text);
     const response = await runAgent(userId, text, history);
-    memory.addMessage(userId, 'assistant', response);
+    await memory.addMessage(userId, 'assistant', response);
     await ctx.reply(response);
   } catch (error) {
     console.error('Bot Error:', error);
@@ -61,12 +61,12 @@ bot.on('message:voice', async (ctx) => {
     const transcript = await transcribeAudio(fileUrl);
     
     // Process as text message
-    memory.addMessage(userId, 'user', `[Nota de voz]: ${transcript}`);
+    await memory.addMessage(userId, 'user', `[Nota de voz]: ${transcript}`);
     
-    const history = memory.getHistory(userId);
+    const history = await memory.getHistory(userId);
     const response = await runAgent(userId, transcript, history);
 
-    memory.addMessage(userId, 'assistant', response);
+    await memory.addMessage(userId, 'assistant', response);
     await ctx.reply(response);
 
   } catch (error) {
