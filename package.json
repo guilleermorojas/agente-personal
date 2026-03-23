@@ -1,0 +1,27 @@
+{
+  "name": "opengravity",
+  "version": "1.0.0",
+  "description": "Personal AI Agent with Telegram Interface",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.14.0",
+    "axios": "^1.13.6",
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "googleapis": "^171.4.0",
+    "grammy": "^1.30.0",
+    "groq-sdk": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^20.14.10",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  }
+}

@@ -1,0 +1,11 @@
+services:
+  opengravity:
+    build: .
+    container_name: opengravity
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DB_PATH=/app/data/memory.json
